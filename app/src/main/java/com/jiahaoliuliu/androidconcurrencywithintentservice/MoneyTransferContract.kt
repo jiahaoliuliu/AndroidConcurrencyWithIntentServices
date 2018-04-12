@@ -1,13 +1,13 @@
 package com.jiahaoliuliu.androidconcurrencywithintentservice
 
-interface MoneyTransferContractView {
+interface View {
 
 }
 
-interface MoneyTransferContractPresenter {
+interface Presenter {
 
 }
 
-interface MoneyTransferContractModel {
+interface Model {
 
 }

@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">AndroidConcurrencyWithIntentService</string>
-    <string name="add_some_money">Add $10</string>
+    <string name="add_some_money">Add $100</string>
     <string name="quantity">Salary: </string>
 </resources>

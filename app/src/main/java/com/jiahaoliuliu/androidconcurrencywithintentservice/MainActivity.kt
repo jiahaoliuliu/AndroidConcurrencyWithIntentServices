@@ -16,5 +16,14 @@ class MainActivity : AppCompatActivity(), View {
         activityMainBinding =
                 DataBindingUtil.setContentView(this, R.layout.activity_main);
         presenter = MoneyTransferPresenter()
+
+        // init the data
+        init()
+    }
+
+    private fun init() {
+        activityMainBinding.addSomeMoneyButton.setOnClickListener {
+            presenter.addSomeMoney()
+        }
     }
 }

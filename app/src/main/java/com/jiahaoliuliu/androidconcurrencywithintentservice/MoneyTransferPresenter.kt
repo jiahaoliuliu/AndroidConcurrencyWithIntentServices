@@ -9,6 +9,7 @@ class MoneyTransferPresenter (view : View) : Presenter {
         const val QUANTITY_TO_ADD = 100
     }
 
+    // TODO: Check why this is not good to have it on the init
     private val moneyTransferManager: MoneyTransferManager = MoneyTransferManager()
     private val view : View = view
 

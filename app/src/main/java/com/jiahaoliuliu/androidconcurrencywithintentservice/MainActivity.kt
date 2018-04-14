@@ -9,24 +9,26 @@ class MainActivity : AppCompatActivity(), View {
     private lateinit var activityMainBinding: ActivityMainBinding
     private lateinit var presenter: Presenter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        activityMainBinding =
-                DataBindingUtil.setContentView(this, R.layout.activity_main);
-        presenter = MoneyTransferPresenter(this)
-
-        // init the data
-        init()
-    }
-
     private fun init() {
         activityMainBinding.addSomeMoneyButton.setOnClickListener {
             presenter.addSomeMoney()
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        activityMainBinding =
+                DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        val addMoneyManager = AddMoneyManager(this)
+        presenter = MoneyTransferPresenter(this, addMoneyManager)
+
+        // init the data
+        init()
+    }
+
     override fun updateQuantity(finalQuantity : Int) {
-        activityMainBinding.quantity.setText(finalQuantity.toString())
+        activityMainBinding.quantity.text = finalQuantity.toString()
     }
 }

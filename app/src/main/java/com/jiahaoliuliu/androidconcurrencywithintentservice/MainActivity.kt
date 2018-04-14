@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import com.jiahaoliuliu.androidconcurrencywithintentservice.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), View {
-
     private lateinit var activityMainBinding: ActivityMainBinding
     private lateinit var presenter: Presenter
 
@@ -16,6 +15,7 @@ class MainActivity : AppCompatActivity(), View {
         activityMainBinding =
                 DataBindingUtil.setContentView(this, R.layout.activity_main);
         presenter = MoneyTransferPresenter()
+        presenter.setView(this)
 
         // init the data
         init()
@@ -25,5 +25,9 @@ class MainActivity : AppCompatActivity(), View {
         activityMainBinding.addSomeMoneyButton.setOnClickListener {
             presenter.addSomeMoney()
         }
+    }
+
+    override fun updateQuantity(finalQuantity : Int) {
+        activityMainBinding.quantity.setText(finalQuantity.toString())
     }
 }

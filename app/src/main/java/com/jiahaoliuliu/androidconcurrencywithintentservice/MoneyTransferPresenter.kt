@@ -2,29 +2,18 @@ package com.jiahaoliuliu.androidconcurrencywithintentservice
 
 import android.util.Log
 
-class MoneyTransferPresenter : Presenter {
+class MoneyTransferPresenter (view : View) : Presenter {
 
     companion object {
-        @JvmField
-        val TAG = "MoneyTransferPresenter"
-        @JvmField
-        val QUANTITY_TO_ADD = 100
+        const val TAG = "MoneyTransferPresenter"
+        const val QUANTITY_TO_ADD = 100
     }
 
     private val moneyTransferManager: MoneyTransferManager = MoneyTransferManager()
-    // TODO: move this to the init block
-    private lateinit var view : View
-
-    init {
-    }
-
-    override fun setView(view: View) {
-        this.view = view
-    }
+    private val view : View = view
 
     override fun addSomeMoney() {
-        Log.i(TAG, "Adding 10 dollars ")
-        val finalQuantity = moneyTransferManager.addMoney(QUANTITY_TO_ADD)
-        view.updateQuantity(finalQuantity)
+        Log.i(TAG, "Adding $QUANTITY_TO_ADD dollars ")
+        view.updateQuantity(moneyTransferManager.addMoney(QUANTITY_TO_ADD))
     }
 }

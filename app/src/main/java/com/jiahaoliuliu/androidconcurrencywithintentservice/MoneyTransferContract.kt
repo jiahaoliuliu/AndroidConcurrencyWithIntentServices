@@ -10,12 +10,6 @@ interface View {
 interface Presenter {
 
     /**
-     * Set the view.
-     * TODO: This should be replaced by the primary constructor
-     */
-    fun setView(view: View)
-
-    /**
      * Add some money to the account
      */
     fun addSomeMoney()

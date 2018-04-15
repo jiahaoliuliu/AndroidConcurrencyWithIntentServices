@@ -9,12 +9,6 @@ class MainActivity : AppCompatActivity(), View {
     private lateinit var activityMainBinding: ActivityMainBinding
     private lateinit var presenter: Presenter
 
-    private fun init() {
-        activityMainBinding.addSomeMoneyButton.setOnClickListener {
-            presenter.addSomeMoney()
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -23,9 +17,6 @@ class MainActivity : AppCompatActivity(), View {
 
         val addMoneyManager = AddMoneyManager(this)
         presenter = MoneyTransferPresenter(this, addMoneyManager)
-
-        // init the data
-        init()
     }
 
     override fun updateQuantity(finalQuantity : Int) {

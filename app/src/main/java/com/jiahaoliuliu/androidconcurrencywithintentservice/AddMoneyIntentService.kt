@@ -35,25 +35,20 @@ class AddMoneyIntentService: IntentService("AddMoneyIntentService") {
         Log.i("AddMoneyIntentService", "New intent received to add money");
 
         // Get the quantity
-        var quantityToAdd = 0
-        intent.let {
-            it?.extras.let {
-                it?.let {
-                    quantityToAdd = it.getInt(INTENT_KEY_QUANTITY)
-                }
-            }
-        }
+        val quantityToAdd = intent?.extras?.getInt(INTENT_KEY_QUANTITY) ?: 0
 
         // Get the receiver
         val resultReceiver = intent?.getParcelableExtra<ResultReceiver>(
                 WalletResultReceiver.INTENT_PARAM_RESULT_RECEIVER)
 
+        // Adding the quantity. This is the core of this app
         val walletManager = WalletManager.instance
         val finalQuantity = walletManager.quantity + quantityToAdd
         walletManager.quantity = finalQuantity
+
+        // Update the result to the caller
         val bundle = Bundle()
         bundle.putInt(WalletResultReceiver.BUNDLE_PARAM_RESULT, finalQuantity)
-
         resultReceiver?.send(WalletResultReceiver.RESULT_CODE_OK, bundle)
     }
 }

@@ -1,6 +1,11 @@
 package com.jiahaoliuliu.androidconcurrencywithintentservice
 
 import android.util.Log
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 
 class MoneyTransferPresenter (view : View,
                               addMoneyManager : AddMoneyManager) : Presenter {
@@ -13,6 +18,22 @@ class MoneyTransferPresenter (view : View,
     // TODO: Check why this is not good to have it on the init
     private val addMoneyManager: AddMoneyManager = addMoneyManager
     private val view : View = view
+
+    init {
+        periodicallyAddMoney()
+    }
+
+    /**
+     * Periodically add some money
+     */
+    private fun periodicallyAddMoney() {
+        Observable.interval(1000, 3000, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(Consumer<Long> {
+                    addSomeMoney()
+                })
+    }
 
     override fun addSomeMoney() {
         Log.i(TAG, "Adding $QUANTITY_TO_ADD dollars ")

@@ -3,41 +3,62 @@ package com.jiahaoliuliu.androidconcurrencywithintentservice
 import android.util.Log
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Consumer
-import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 class MoneyTransferPresenter (view : View,
-                              addMoneyManager : AddMoneyManager) : Presenter {
+                              salaryManager : SalaryManager) : Presenter {
 
     companion object {
         const val TAG = "MoneyTransferPresenter"
-        const val QUANTITY_TO_ADD = 100
+        const val SALARY_TO_ADD = 100
+        const val TIPS_TO_ADD = 1
     }
 
     // TODO: Check why this is not good to have it on the init
-    private val addMoneyManager: AddMoneyManager = addMoneyManager
+    private val salaryManager: SalaryManager = salaryManager
     private val view : View = view
 
     init {
-        periodicallyAddMoney()
+        periodicallyAddSalary()
+        periodicallyAddTips()
     }
 
     /**
-     * Periodically add some money
+     * Periodically add salary
      */
-    private fun periodicallyAddMoney() {
-        Observable.interval(1000, 3000, TimeUnit.MILLISECONDS)
-                .subscribeOn(Schedulers.io())
+    private fun periodicallyAddSalary() {
+        Log.i("Thread", "Periodically adding salary. The current thread is "
+                 + Thread.currentThread().id)
+
+        Observable.interval(1000, 10000, TimeUnit.MILLISECONDS)
+                // Force for the subscription to happens on the main thread
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(Consumer<Long> {
-                    addSomeMoney()
+                .subscribe({
+                    addSalary()
                 })
     }
 
-    override fun addSomeMoney() {
-        Log.i(TAG, "Adding $QUANTITY_TO_ADD dollars ")
-        addMoneyManager.addMoney(QUANTITY_TO_ADD, MoneyAddedReceiverCallback(view))
+    private fun addSalary() {
+        Log.i(TAG, "Adding $SALARY_TO_ADD dollars as salary")
+        Log.i("Thread", "Adding Salary. The current thread is " + Thread.currentThread().id)
+        salaryManager.addSalary(SALARY_TO_ADD, MoneyAddedReceiverCallback(view))
+    }
+
+    private fun periodicallyAddTips() {
+        Log.i("Thread", "Periodically adding tips. The current thread is "
+                + Thread.currentThread().id)
+        Observable.interval(1000, 500, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    addTips()
+                })
+    }
+
+    private fun addTips() {
+        Log.i("Thread", "Periodically adding tips. The current thread is "
+                + Thread.currentThread().id)
+        Log.i(TAG, "Adding $TIPS_TO_ADD dollars as tip")
+        salaryManager.addTips(TIPS_TO_ADD, MoneyAddedReceiverCallback(view))
     }
 }
 
@@ -45,9 +66,10 @@ class MoneyAddedReceiverCallback (view: View): WalletResultReceiver.ResultReceiv
 
     private val view = view
 
-    override fun onSuccess(finalAmount: Int) {
-        Log.i("Money", "Money added $finalAmount");
-        view.updateQuantity(finalAmount)
+    override fun onSuccess(finalSalary: Int) {
+        Log.i("Money", "money added $finalSalary");
+        Log.i("Thread", "Updating Salary. The current thread is " + Thread.currentThread().id)
+        view.updateSalary(finalSalary)
     }
 
     override fun onError(exception: Exception) {

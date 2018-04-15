@@ -15,11 +15,11 @@ class MainActivity : AppCompatActivity(), View {
         activityMainBinding =
                 DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        val addMoneyManager = AddMoneyManager(this)
+        val addMoneyManager = SalaryManager(this)
         presenter = MoneyTransferPresenter(this, addMoneyManager)
     }
 
-    override fun updateQuantity(finalQuantity : Int) {
-        activityMainBinding.quantity.text = finalQuantity.toString()
+    override fun updateSalary(finalSalary : Int) {
+        activityMainBinding.quantity.text = finalSalary.toString()
     }
 }

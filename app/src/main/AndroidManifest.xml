@@ -16,7 +16,9 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".AddMoneyIntentService"/>
+        <service android:name=".AddSalaryIntentService"/>
+
+        <service android:name=".AddTipsService" />
     </application>
 
 </manifest>

@@ -2,17 +2,12 @@ package com.jiahaoliuliu.androidconcurrencywithintentservice
 
 interface View {
     /**
-     * Update the final money quantity
+     * Update the final Salary
      */
-    fun updateQuantity(finalQuantity : Int)
+    fun updateSalary(finalSalary : Int)
 }
 
 interface Presenter {
-
-    /**
-     * Add some money to the account
-     */
-    fun addSomeMoney()
 }
 
 interface Model {
